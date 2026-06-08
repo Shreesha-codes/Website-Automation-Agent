@@ -1,0 +1,6 @@
+/* index.css - Reset styling to avoid template conflicts. Core styles are in App.css */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

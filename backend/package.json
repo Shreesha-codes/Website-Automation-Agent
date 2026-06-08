@@ -1,0 +1,20 @@
+{
+  "name": "website-automation-agent-backend",
+  "version": "1.0.0",
+  "description": "Express backend running Playwright and LLM Agent",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.52.0",
+    "playwright": "^1.45.0",
+    "ws": "^8.18.0"
+  }
+}
