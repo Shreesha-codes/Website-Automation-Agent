@@ -24,8 +24,15 @@ export class BrowserController {
 
   async open_browser(headed = false) {
     if (this.browser) {
-      this.log("Browser is already open.");
-      return;
+      try {
+        if (this.page && !this.page.isClosed() && this.browser.isConnected()) {
+          this.log("Browser is already open.");
+          return;
+        }
+      } catch (e) {
+        // Ignore and clean up
+      }
+      await this.close_browser();
     }
 
     this.log(`Launching Chromium browser (${headed ? "headed" : "headless"})...`);
@@ -40,6 +47,19 @@ export class BrowserController {
     });
 
     this.page = await this.context.newPage();
+    
+    this.page.on('close', () => {
+      this.log("Browser page was closed.");
+      this.page = null;
+    });
+    
+    this.browser.on('disconnected', () => {
+      this.log("Browser disconnected.");
+      this.browser = null;
+      this.context = null;
+      this.page = null;
+    });
+
     this.log("Browser instance successfully initialized.");
   }
 

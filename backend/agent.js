@@ -12,7 +12,7 @@ You can use the following tools:
 - "send_keys": Types the specified string. Args: { "keys": "text to type" }. If keys is a special key like "Enter", "Tab", "Escape", "Backspace", it presses the key. Use this AFTER clicking/focusing an input element.
 - "scroll": Scrolls the page. Args: { "direction": "down" | "up", "amount": number }. Use this to reveal elements that are hidden below or above the viewport.
 - "double_click": Double-clicks the mouse at specified coordinates. Args: { "x": number, "y": number }.
-- "complete": Call this when you have successfully completed the user's task. Args: {}
+- "complete": Call this when you have successfully completed the user's task. If the user's task asks to find, look up, or retrieve information, you MUST provide the found answer or summary in the "response" field of the args. Args: { "response": "the final answer or response to the user's query/task" }
 
 Rules:
 1. To fill in a form field, you MUST first focus it by calling click_on_screen at its center coordinates, and then send_keys with the text.
@@ -43,7 +43,7 @@ export async function runAgentTask({
   browserController.log(`Starting AI Agent loop using ${provider} (${modelName})...`);
 
   // Ensure browser is running and has a page
-  if (!browserController.page) {
+  if (!browserController.page || browserController.page.isClosed()) {
     await browserController.open_browser();
   }
 
@@ -172,7 +172,7 @@ Look at the screenshot and the DOM elements listed above. Identify where you nee
           step,
           thought: decision.thought,
           action: "complete",
-          args: {},
+          args: decision.args || {},
           screenshot: screenshotBase64,
           status: "completed"
         });

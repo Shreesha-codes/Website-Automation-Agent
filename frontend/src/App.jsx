@@ -414,8 +414,10 @@ export default function App() {
                 >
                   {provider === 'gemini' ? (
                     <>
-                      <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-                      <option value="gemini-2.5-pro">gemini-2.5-pro</option>
+                      <option value="gemini-2.5-flash">gemini-2.5-flash (Experimental)</option>
+                      <option value="gemini-2.5-pro">gemini-2.5-pro (Experimental)</option>
+                      <option value="gemini-2.0-flash">gemini-2.0-flash (Recommended)</option>
+                      <option value="gemini-1.5-flash">gemini-1.5-flash (Stable)</option>
                     </>
                   ) : (
                     <>
@@ -727,7 +729,24 @@ export default function App() {
                   </div>
                   <div className="agent-thought-text">
                     <div className="agent-thought-title" style={{ color: 'white' }}>Task Completed!</div>
-                    <div className="agent-thought-body" style={{ color: 'white' }}>{agentState.thought || 'The agent completed the automation sequence successfully.'}</div>
+                    <div className="agent-thought-body" style={{ color: 'white' }}>
+                      <p>{agentState.thought || 'The agent completed the automation sequence successfully.'}</p>
+                      {agentState.args && agentState.args.response && (
+                        <div className="query-response-box" style={{ 
+                          marginTop: '0.75rem', 
+                          padding: '0.75rem', 
+                          background: 'rgba(0, 0, 0, 0.35)', 
+                          borderRadius: '8px', 
+                          border: '1px solid rgba(255, 255, 255, 0.15)',
+                          fontSize: '0.85rem',
+                          textAlign: 'left',
+                          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                        }}>
+                          <strong style={{ color: '#22d3ee', display: 'block', marginBottom: '0.35rem' }}>This is the response for your query:</strong>
+                          <span style={{ color: '#f3f4f6', whiteSpace: 'pre-wrap', lineHeight: '1.4' }}>{agentState.args.response}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
